@@ -12,17 +12,23 @@ from ag_ui_adk import ADKAgent, add_adk_fastapi_endpoint
 import uvicorn
 import logging
 from app.agents.dq_agent.agent import agent as dq_root_agent
+from google.adk.sessions.in_memory_session_service import InMemorySessionService
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("app.main")
 
+# Initialize ADK Session Service for Local
+# Using Google ADK's native InMemorySessionService
+session_service = InMemorySessionService()
+
 # Setup App with Google ADK CLI utility
 # This sets up A2A routes for agents found in 'app/agents'
-# Note: 'web' parameter enables developer UI and A2A services
+# We pass the session_service instance to ensure get_fast_api_app uses it
 app = get_fast_api_app(
     agents_dir="app/agents",
-    web=True, # Set to True if you want the ADK Web UI dev endpoint
-    a2a=True   # Enable A2A capabilities
+    session_service_uri="memory://", # ADK uses 'memory://' for InMemorySessionService
+    web=True, 
+    a2a=True
 )
 
 # Add Middleware
@@ -41,11 +47,12 @@ def health_check():
 
 # 1. AG UI Endpoint
 # Wrap the ADK agent with AG UI Middleware
-# We import the same agent instance that get_fast_api_app (via AgentLoader) should use
+# We import the same agent instance and pass the session service
 ag_ui_agent = ADKAgent(
     adk_agent=dq_root_agent,
     app_name="dq-agent-app",
-    user_id="default-user"
+    user_id="default-user",
+    session_service=session_service
 )
 
 # Add endpoint for AG UI (e.g., /chat or /agent)
