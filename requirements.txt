@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+google-cloud-aiplatform
+google-generativeai
+pydantic
+python-dotenv
+databricks-sdk
+sqlalchemy
+google-adk[a2a]
+a2a-sdk

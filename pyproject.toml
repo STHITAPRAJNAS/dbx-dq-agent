@@ -1,0 +1,21 @@
+[project]
+name = "dbx-dq-qgent"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "a2a-sdk>=0.3.24",
+    "ag-ui-adk",
+    "databricks-sdk>=0.94.0",
+    "fastapi>=0.134.0",
+    "google-adk[a2a]>=1.26.0",
+    "google-generativeai>=0.8.6",
+    "pandas>=2.3.3",
+    "pydantic>=2.12.5",
+    "python-dotenv>=1.2.1",
+    "uvicorn>=0.41.0",
+]
+
+[tool.uv.sources]
+ag-ui-adk = { git = "https://github.com/ag-ui-protocol/ag-ui.git", subdirectory = "integrations/adk-middleware/python" }

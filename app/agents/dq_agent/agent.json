@@ -1,0 +1,249 @@
+{
+  "additionalInterfaces": null,
+  "capabilities": {
+    "extensions": null,
+    "pushNotifications": null,
+    "stateTransitionHistory": null,
+    "streaming": null
+  },
+  "defaultInputModes": [
+    "text/plain"
+  ],
+  "defaultOutputModes": [
+    "text/plain"
+  ],
+  "description": "An ADK Agent",
+  "documentationUrl": null,
+  "iconUrl": null,
+  "name": "dq_root_agent",
+  "preferredTransport": "JSONRPC",
+  "protocolVersion": "0.3.0",
+  "provider": null,
+  "security": null,
+  "securitySchemes": null,
+  "signatures": null,
+  "skills": [
+    {
+      "description": "\n        I am the main Data Quality Agent.\n        Coordinate the process of running data quality checks.\n        1. Use 'planning_agent' to plan the checks.\n        2. Use 'coding_agent' to generate SQL for the plan.\n        3. Use 'execution_agent' to run the SQL and report results.\n        Always report the final status of the checks to the user.\n        ",
+      "examples": [],
+      "id": "dq_root_agent",
+      "inputModes": null,
+      "name": "model",
+      "outputModes": null,
+      "security": null,
+      "tags": [
+        "llm"
+      ]
+    },
+    {
+      "description": "\n        I am a Data Quality Planner.\n        my goal is to understand the user's request for data quality checks\n        and create a step-by-step plan.\n        Identify which schemas/tables need to be checked.\n        Do NOT execute any SQL. Just return the plan.\n        ",
+      "examples": [],
+      "id": "planning_agent_planning_agent",
+      "inputModes": null,
+      "name": "planning_agent: model",
+      "outputModes": null,
+      "security": null,
+      "tags": [
+        "sub_agent:planning_agent",
+        "llm"
+      ]
+    },
+    {
+      "description": "Lists all available catalogs.",
+      "examples": null,
+      "id": "planning_agent_planning_agent-list_catalogs",
+      "inputModes": null,
+      "name": "planning_agent: list_catalogs",
+      "outputModes": null,
+      "security": null,
+      "tags": [
+        "sub_agent:planning_agent",
+        "llm",
+        "tools"
+      ]
+    },
+    {
+      "description": "Lists schemas in a catalog.",
+      "examples": null,
+      "id": "planning_agent_planning_agent-list_schemas",
+      "inputModes": null,
+      "name": "planning_agent: list_schemas",
+      "outputModes": null,
+      "security": null,
+      "tags": [
+        "sub_agent:planning_agent",
+        "llm",
+        "tools"
+      ]
+    },
+    {
+      "description": "Lists tables in a specific schema.",
+      "examples": null,
+      "id": "planning_agent_planning_agent-list_tables",
+      "inputModes": null,
+      "name": "planning_agent: list_tables",
+      "outputModes": null,
+      "security": null,
+      "tags": [
+        "sub_agent:planning_agent",
+        "llm",
+        "tools"
+      ]
+    },
+    {
+      "description": "Executes a SQL query and returns results.",
+      "examples": null,
+      "id": "planning_agent_planning_agent-execute_sql",
+      "inputModes": null,
+      "name": "planning_agent: execute_sql",
+      "outputModes": null,
+      "security": null,
+      "tags": [
+        "sub_agent:planning_agent",
+        "llm",
+        "tools"
+      ]
+    },
+    {
+      "description": "\n        I am a SQL Expert for Databricks/SQLite.\n        Translate the data quality plan into executable SQL queries.\n        Ensure queries are efficient and correct for the dialect.\n        Return the SQL queries.\n        ",
+      "examples": [],
+      "id": "coding_agent_coding_agent",
+      "inputModes": null,
+      "name": "coding_agent: model",
+      "outputModes": null,
+      "security": null,
+      "tags": [
+        "sub_agent:coding_agent",
+        "llm"
+      ]
+    },
+    {
+      "description": "Lists all available catalogs.",
+      "examples": null,
+      "id": "coding_agent_coding_agent-list_catalogs",
+      "inputModes": null,
+      "name": "coding_agent: list_catalogs",
+      "outputModes": null,
+      "security": null,
+      "tags": [
+        "sub_agent:coding_agent",
+        "llm",
+        "tools"
+      ]
+    },
+    {
+      "description": "Lists schemas in a catalog.",
+      "examples": null,
+      "id": "coding_agent_coding_agent-list_schemas",
+      "inputModes": null,
+      "name": "coding_agent: list_schemas",
+      "outputModes": null,
+      "security": null,
+      "tags": [
+        "sub_agent:coding_agent",
+        "llm",
+        "tools"
+      ]
+    },
+    {
+      "description": "Lists tables in a specific schema.",
+      "examples": null,
+      "id": "coding_agent_coding_agent-list_tables",
+      "inputModes": null,
+      "name": "coding_agent: list_tables",
+      "outputModes": null,
+      "security": null,
+      "tags": [
+        "sub_agent:coding_agent",
+        "llm",
+        "tools"
+      ]
+    },
+    {
+      "description": "Executes a SQL query and returns results.",
+      "examples": null,
+      "id": "coding_agent_coding_agent-execute_sql",
+      "inputModes": null,
+      "name": "coding_agent: execute_sql",
+      "outputModes": null,
+      "security": null,
+      "tags": [
+        "sub_agent:coding_agent",
+        "llm",
+        "tools"
+      ]
+    },
+    {
+      "description": "\n        I am a Data Quality Executor.\n        Take the SQL queries provided and execute them using the 'execute_sql' tool.\n        Analyze the results and report any failures or issues.\n        ",
+      "examples": [],
+      "id": "execution_agent_execution_agent",
+      "inputModes": null,
+      "name": "execution_agent: model",
+      "outputModes": null,
+      "security": null,
+      "tags": [
+        "sub_agent:execution_agent",
+        "llm"
+      ]
+    },
+    {
+      "description": "Lists all available catalogs.",
+      "examples": null,
+      "id": "execution_agent_execution_agent-list_catalogs",
+      "inputModes": null,
+      "name": "execution_agent: list_catalogs",
+      "outputModes": null,
+      "security": null,
+      "tags": [
+        "sub_agent:execution_agent",
+        "llm",
+        "tools"
+      ]
+    },
+    {
+      "description": "Lists schemas in a catalog.",
+      "examples": null,
+      "id": "execution_agent_execution_agent-list_schemas",
+      "inputModes": null,
+      "name": "execution_agent: list_schemas",
+      "outputModes": null,
+      "security": null,
+      "tags": [
+        "sub_agent:execution_agent",
+        "llm",
+        "tools"
+      ]
+    },
+    {
+      "description": "Lists tables in a specific schema.",
+      "examples": null,
+      "id": "execution_agent_execution_agent-list_tables",
+      "inputModes": null,
+      "name": "execution_agent: list_tables",
+      "outputModes": null,
+      "security": null,
+      "tags": [
+        "sub_agent:execution_agent",
+        "llm",
+        "tools"
+      ]
+    },
+    {
+      "description": "Executes a SQL query and returns results.",
+      "examples": null,
+      "id": "execution_agent_execution_agent-execute_sql",
+      "inputModes": null,
+      "name": "execution_agent: execute_sql",
+      "outputModes": null,
+      "security": null,
+      "tags": [
+        "sub_agent:execution_agent",
+        "llm",
+        "tools"
+      ]
+    }
+  ],
+  "supportsAuthenticatedExtendedCard": false,
+  "url": "/a2a/dq_agent",
+  "version": "0.0.1"
+}
